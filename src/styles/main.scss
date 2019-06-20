@@ -1,9 +1,15 @@
 
 #canvas {
-  margin: 2% auto;
+  left: 0;
   display: block;
+  float: left;
+  margin-right: 2%;
 }
-
 body {
   background-color: #272727;
+  color: #fff;
+  font-weight: 800;
+  font-size: 3.5em;
+  text-transform: uppercase;
+  font-family: Calibri;
 }
