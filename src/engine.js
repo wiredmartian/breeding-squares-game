@@ -26,14 +26,6 @@ document.addEventListener('mousedown', function (e) {
     mouseCoords.y = e.layerY;
 });
 
-document.addEventListener('keydown', function (e) {
-    if (e.key === " " || e.code === "Space") {
-        if (ANIMATION_ID === undefined && SQUARES.length === 0 && PARENT_HIT === false) {
-            restart();
-        }
-    }
-});
-
 window.addEventListener('resize', function () {
     resizeCanvas();
 });
@@ -117,8 +109,10 @@ export class Square {
             animate();
         };
         this.restart = function () {
-            createParentSquares();
-            animate();
+            if(ANIMATION_ID == undefined && SQUARES.length === 0 && PARENT_HIT === false) {
+                this.createParents();
+                animate();
+            }
         };
         this.stop = function () {
             cancelAnimationFrame(ANIMATION_ID);
