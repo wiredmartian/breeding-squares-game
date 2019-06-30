@@ -61,7 +61,7 @@ function Square(x, y, dx, dy) {
         this.y += this.dy;
 
         if (this.parentHit()) {
-            stop();
+            this.stop();
             this.reset();
         }
 
@@ -98,6 +98,12 @@ function Square(x, y, dx, dy) {
     this.restart = function () {
         createParentSquares();
         animate();
+    }
+
+    this.stop = function() {
+        cancelAnimationFrame(ANIMATION_ID);
+        PARENT_HIT = false;
+        ANIMATION_ID = undefined;
     }
 }
 
@@ -137,12 +143,6 @@ function animate() {
     }
 }
 animate();
-
-function stop() {
-    cancelAnimationFrame(ANIMATION_ID);
-    PARENT_HIT = false;
-    ANIMATION_ID = undefined;
-}
 
 function calculateDistance(x2, x1, y2, y1) {
     x1 = Math.floor(x1);
