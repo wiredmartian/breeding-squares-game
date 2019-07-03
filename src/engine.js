@@ -94,7 +94,7 @@ export class Square {
         this.reset = function () {
             this.emitEvent(":reset");
             setTimeout(function(){
-                for (let x = (SQUARES.length-1); x > 0; x--) {
+                for (let x = (SQUARES.length-1); x >= 0; x--) {
                     ctx.clearRect(SQUARES[x].x - 5, SQUARES[x].y - 5, w + 10, h + 10);
                     SQUARES.splice(x, 1);
                 }
@@ -163,7 +163,7 @@ function animate() {
         SQUARES[i].update();
         if (SQUARES.length <= MAX_SQUARES) {
             if (Math.floor(SQUARES[0].x) === Math.floor(SQUARES[1].x)) {
-                SQUARES.push(new Square(x, y, dx, dy, W, H, MAX_SQUARES));
+                SQUARES.push(new Square(x, y, dx, dy, W, H));
                 //updateScore();
                 break;
             }
