@@ -7,8 +7,8 @@ resizeCanvas();
 let PARENT_HIT = false;
 let ANIMATION_ID = undefined;
 let SQUARES = [];
-let DX;
-let DY;
+let DX = undefined;
+let DY = undefined;
 let W;
 let H;
 
@@ -21,7 +21,6 @@ let mouseCoords = {
 
 // event handlers
 document.addEventListener('mousedown', function (e) {
-    console.log('hit');
     mouseCoords.x = e.layerX;
     mouseCoords.y = e.layerY;
 });
@@ -44,8 +43,10 @@ export class Square {
         this.color = colors[Math.floor(Math.random() * colors.length)];
 
         // share values with animate function
-        DX = this.dx;
-        DY = this.dy;
+        if (!(DX && DY)) {
+            DX = this.dx;
+            DY = this.dy;
+        }
         W = this.w;
         H = this.h;
         //
@@ -160,6 +161,7 @@ function animate() {
         SQUARES[i].update();
         if (SQUARES.length <= 100) {
             if (Math.floor(SQUARES[0].x) === Math.floor(SQUARES[1].x)) {
+            console.log(DX, DY);
                 SQUARES.push(new Square(x, y, dx, dy, W, H));
                 //updateScore();
                 break;

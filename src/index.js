@@ -4,7 +4,7 @@ import { Square } from "./engine";
 
 
 // new Square(x.position, y.position, x.velocity, y.velocity, sq.width, sq.height)
-var game = new Square(10, 10, 8, 8, 80, 80);
+var game = new Square(10, 10, 10, 10, 40, 40);
 
 game.start();
 
