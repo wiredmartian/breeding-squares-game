@@ -11,6 +11,7 @@ resizeCanvas();
 let PARENT_HIT = false;
 let ANIMATION_ID = undefined;
 let SQUARES = [];
+let MAX_SQUARES = 5;
 let DX = undefined;
 let DY = undefined;
 let W;
@@ -41,6 +42,7 @@ export class Square {
         this.dy = dy;
         this.w = w;
         this.h = h;
+
         this.color = colors[Math.floor(Math.random() * colors.length)];
 
         // share values with animate function
@@ -71,6 +73,11 @@ export class Square {
             mouseCoords.x = undefined;
             mouseCoords.y = undefined;
             this.draw();
+
+            // check squares
+            if (SQUARES.length >= MAX_SQUARES) {
+                this.emitEvent(":gameover");
+            }
         };
         this.parentHit = function () {
             // distance between mouse and original square
@@ -78,26 +85,22 @@ export class Square {
                 let x_c = mouseCoords.x - (this.w / 2);
                 let y_c = mouseCoords.y - (this.h / 2);
                 if (calculateDistance(x_c, this.x, y_c, this.y) < 30) {
-                    _gameEvent.emit(":win");
+                    this.emitEvent(":win");
                     PARENT_HIT = true;
                 }
             }
             return PARENT_HIT;
         };
         this.reset = function () {
-            _gameEvent.emit(":reset");
-            let x = SQUARES.length - 1;
-            let interval = setInterval(function () {
-                if (SQUARES.length > 0) {
+            this.emitEvent(":reset");
+            setTimeout(function(){
+                for (let x = (SQUARES.length-1); x > 0; x--) {
                     ctx.clearRect(SQUARES[x].x - 5, SQUARES[x].y - 5, w + 10, h + 10);
                     SQUARES.splice(x, 1);
-                    x--;
                 }
-                else {
-                    clearInterval(interval);
-                    ctx.clearRect(0, 0, innerWidth, innerHeight);
-                }
-            }, 200);
+
+            }, 800)
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
         };
         this.createParents = function() {
             for(let i = 0; i < 2; i++) {
@@ -109,7 +112,7 @@ export class Square {
             }
         };
         this.start = function() {
-            _gameEvent.emit(":start");
+            this.emitEvent(":start");
             this.createParents();
             animate();
         };
@@ -120,13 +123,11 @@ export class Square {
             }
         };
         this.stop = function () {
-            _gameEvent.emit(":stop");
+            this.emitEvent(":stop");
             cancelAnimationFrame(ANIMATION_ID);
             PARENT_HIT = false;
             ANIMATION_ID = undefined;
         };
-
-        // Event Handler
         this.emitEvent = function(eventName) {
             _gameEvent.emit(eventName);
         }
@@ -160,14 +161,12 @@ function animate() {
     ctx.clearRect(0, 0, innerWidth, innerHeight);
     for(let i = 0; i < SQUARES.length; i++){
         SQUARES[i].update();
-        if (SQUARES.length <= 10) {
+        if (SQUARES.length <= MAX_SQUARES) {
             if (Math.floor(SQUARES[0].x) === Math.floor(SQUARES[1].x)) {
-                SQUARES.push(new Square(x, y, dx, dy, W, H));
+                SQUARES.push(new Square(x, y, dx, dy, W, H, MAX_SQUARES));
                 //updateScore();
                 break;
             }
-        } else {
-            _gameEvent.emit(":gameover");
         }
     }
 }

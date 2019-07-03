@@ -3,14 +3,16 @@ import { Square } from "./engine";
 
 let STAGE = 1;
 
-// new Square(x.position, y.position, x.velocity, y.velocity, sq.width, sq.height)
+// new Square(x.position, y.position, x.velocity, y.velocity, sq.width, sq.height, maxsquares)
 var game = new Square(10, 10, 10, 10, 40, 40);
 
-//game.start();
+game.start();
 newStage(STAGE);
 
-game._game.on(":gameover", function() {
-    console.info("Game Over!");
+game._game.once(":gameover", function() {
+    console.log('game over')
+    game.stop();
+    game.reset();
 })
 
 
