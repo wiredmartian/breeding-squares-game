@@ -1,3 +1,7 @@
+import { EventEmitter } from "events";
+
+let _gameEvent = new EventEmitter();
+
 
 const canvas = document.querySelector('canvas');
 let canvasDimensions = (window.innerHeight - 80);
@@ -28,9 +32,6 @@ document.addEventListener('mousedown', function (e) {
 window.addEventListener('resize', function () {
     resizeCanvas();
 });
-
-
-
 
 export class Square {
     constructor(x, y, dx, dy, w = 40, h = 40) {
@@ -77,12 +78,14 @@ export class Square {
                 let x_c = mouseCoords.x - (this.w / 2);
                 let y_c = mouseCoords.y - (this.h / 2);
                 if (calculateDistance(x_c, this.x, y_c, this.y) < 30) {
+                    _gameEvent.emit(":win");
                     PARENT_HIT = true;
                 }
             }
             return PARENT_HIT;
         };
         this.reset = function () {
+            _gameEvent.emit(":reset");
             let x = SQUARES.length - 1;
             let interval = setInterval(function () {
                 if (SQUARES.length > 0) {
@@ -106,6 +109,7 @@ export class Square {
             }
         };
         this.start = function() {
+            _gameEvent.emit(":start");
             this.createParents();
             animate();
         };
@@ -116,10 +120,18 @@ export class Square {
             }
         };
         this.stop = function () {
+            _gameEvent.emit(":stop");
             cancelAnimationFrame(ANIMATION_ID);
             PARENT_HIT = false;
             ANIMATION_ID = undefined;
         };
+
+        // Event Handler
+        this.emitEvent = function(eventName) {
+            _gameEvent.emit(eventName);
+        }
+
+        this._game = _gameEvent;
     }
 }
 
@@ -139,17 +151,6 @@ function resizeCanvas() {
     canvas.height = (window.innerHeight - 80);
 }
 
-
-/*function createParentSquares() {
-    for(let i = 0; i < 2; i++) {
-        let x = Math.random() * (canvasDimensions - 50);
-        let y = Math.random() * (canvasDimensions - 50);
-        let dx = (Math.random() * 10);
-        let dy = (Math.random() * 10);
-        SQUARES.push(new Square(x, y, dx, dy));
-    }
-}*/
-
 function animate() {
     let x = Math.random() * (canvasDimensions - 50);
     let y = Math.random() * (canvasDimensions - 50);
@@ -159,13 +160,14 @@ function animate() {
     ctx.clearRect(0, 0, innerWidth, innerHeight);
     for(let i = 0; i < SQUARES.length; i++){
         SQUARES[i].update();
-        if (SQUARES.length <= 100) {
+        if (SQUARES.length <= 10) {
             if (Math.floor(SQUARES[0].x) === Math.floor(SQUARES[1].x)) {
-            console.log(DX, DY);
                 SQUARES.push(new Square(x, y, dx, dy, W, H));
                 //updateScore();
                 break;
             }
+        } else {
+            _gameEvent.emit(":gameover");
         }
     }
 }
