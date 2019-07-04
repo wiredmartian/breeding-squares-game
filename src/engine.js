@@ -1,3 +1,7 @@
+import { EventEmitter } from "events";
+
+let _gameEvent = new EventEmitter();
+
 
 const canvas = document.querySelector('canvas');
 let canvasDimensions = (window.innerHeight - 80);
@@ -7,8 +11,9 @@ resizeCanvas();
 let PARENT_HIT = false;
 let ANIMATION_ID = undefined;
 let SQUARES = [];
-let DX;
-let DY;
+let MAX_SQUARES = 5;
+let DX = undefined;
+let DY = undefined;
 let W;
 let H;
 
@@ -21,7 +26,6 @@ let mouseCoords = {
 
 // event handlers
 document.addEventListener('mousedown', function (e) {
-    console.log('hit');
     mouseCoords.x = e.layerX;
     mouseCoords.y = e.layerY;
 });
@@ -29,9 +33,6 @@ document.addEventListener('mousedown', function (e) {
 window.addEventListener('resize', function () {
     resizeCanvas();
 });
-
-
-
 
 export class Square {
     constructor(x, y, dx, dy, w = 40, h = 40) {
@@ -41,11 +42,14 @@ export class Square {
         this.dy = dy;
         this.w = w;
         this.h = h;
+
         this.color = colors[Math.floor(Math.random() * colors.length)];
 
         // share values with animate function
-        DX = this.dx;
-        DY = this.dy;
+        if (!(DX && DY)) {
+            DX = this.dx;
+            DY = this.dy;
+        }
         W = this.w;
         H = this.h;
         //
@@ -76,24 +80,22 @@ export class Square {
                 let x_c = mouseCoords.x - (this.w / 2);
                 let y_c = mouseCoords.y - (this.h / 2);
                 if (calculateDistance(x_c, this.x, y_c, this.y) < 30) {
+                    this.emitEvent(":win");
                     PARENT_HIT = true;
                 }
             }
             return PARENT_HIT;
         };
         this.reset = function () {
-            let x = SQUARES.length - 1;
-            let interval = setInterval(function () {
-                if (SQUARES.length > 0) {
+            this.emitEvent(":reset");
+            setTimeout(function(){
+                for (let x = (SQUARES.length-1); x >= 0; x--) {
                     ctx.clearRect(SQUARES[x].x - 5, SQUARES[x].y - 5, w + 10, h + 10);
                     SQUARES.splice(x, 1);
-                    x--;
                 }
-                else {
-                    clearInterval(interval);
-                    ctx.clearRect(0, 0, innerWidth, innerHeight);
-                }
-            }, 200);
+
+            }, 800)
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
         };
         this.createParents = function() {
             for(let i = 0; i < 2; i++) {
@@ -105,6 +107,7 @@ export class Square {
             }
         };
         this.start = function() {
+            this.emitEvent(":start");
             this.createParents();
             animate();
         };
@@ -115,10 +118,16 @@ export class Square {
             }
         };
         this.stop = function () {
+            this.emitEvent(":stop");
             cancelAnimationFrame(ANIMATION_ID);
             PARENT_HIT = false;
             ANIMATION_ID = undefined;
         };
+        this.emitEvent = function(eventName) {
+            _gameEvent.emit(eventName);
+        }
+
+        this._game = _gameEvent;
     }
 }
 
@@ -138,17 +147,6 @@ function resizeCanvas() {
     canvas.height = (window.innerHeight - 80);
 }
 
-
-/*function createParentSquares() {
-    for(let i = 0; i < 2; i++) {
-        let x = Math.random() * (canvasDimensions - 50);
-        let y = Math.random() * (canvasDimensions - 50);
-        let dx = (Math.random() * 10);
-        let dy = (Math.random() * 10);
-        SQUARES.push(new Square(x, y, dx, dy));
-    }
-}*/
-
 function animate() {
     let x = Math.random() * (canvasDimensions - 50);
     let y = Math.random() * (canvasDimensions - 50);
@@ -156,9 +154,14 @@ function animate() {
     let dy = (Math.random() * DY);
     ANIMATION_ID = requestAnimationFrame(animate);
     ctx.clearRect(0, 0, innerWidth, innerHeight);
+
+    // is game over 
+    if (SQUARES.length >= MAX_SQUARES) {
+        _gameEvent.emit(":gameover")
+    }
     for(let i = 0; i < SQUARES.length; i++){
         SQUARES[i].update();
-        if (SQUARES.length <= 100) {
+        if (SQUARES.length <= MAX_SQUARES) {
             if (Math.floor(SQUARES[0].x) === Math.floor(SQUARES[1].x)) {
                 SQUARES.push(new Square(x, y, dx, dy, W, H));
                 //updateScore();
