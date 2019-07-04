@@ -73,11 +73,6 @@ export class Square {
             mouseCoords.x = undefined;
             mouseCoords.y = undefined;
             this.draw();
-
-            // check squares
-            if (SQUARES.length >= MAX_SQUARES) {
-                this.emitEvent(":gameover");
-            }
         };
         this.parentHit = function () {
             // distance between mouse and original square
@@ -159,6 +154,11 @@ function animate() {
     let dy = (Math.random() * DY);
     ANIMATION_ID = requestAnimationFrame(animate);
     ctx.clearRect(0, 0, innerWidth, innerHeight);
+
+    // is game over 
+    if (SQUARES.length >= MAX_SQUARES) {
+        _gameEvent.emit(":gameover")
+    }
     for(let i = 0; i < SQUARES.length; i++){
         SQUARES[i].update();
         if (SQUARES.length <= MAX_SQUARES) {

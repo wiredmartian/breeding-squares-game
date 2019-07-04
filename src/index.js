@@ -9,8 +9,7 @@ var game = new Square(10, 10, 10, 10, 40, 40);
 game.start();
 newStage(STAGE);
 
-game._game.once(":gameover", function() {
-    console.log('game over')
+game._game.on(":gameover", function() {
     game.stop();
     game.reset();
 })
