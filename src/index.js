@@ -25,3 +25,6 @@ document.addEventListener('keydown', function (e) {
 function newStage(stage) {
     localStorage.setItem(':STAGE', stage);
 }
+function loadNewGame(game) {
+    game.start();
+}
