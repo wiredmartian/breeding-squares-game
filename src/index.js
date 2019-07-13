@@ -9,23 +9,9 @@ if (STAGE_DATA) {
     loadNewGame(STAGE_DATA);
 }
 
-
-GAME._game.on(":gameover", function() {
-    //GAME.stop();
-    //GAME.reset();
-})
-
-
-document.addEventListener('keydown', function (e) {
-    if (e.key === " " || e.code === "Space") {
-        GAME.restart();
-    }
-});
-
 function loadNewGame(s) {
-    GAME = new Square(s.data.x, s.data.y, s.data.dx, s.data.dy, s.data.w, s.data.h);
+    GAME = new Square(s.data.x, s.data.y, s.data.dx, s.data.dy, s.data.w, s.data.h, s.data.maxsquares);
     GAME.start();
-    setNewStage(s.stage);
 }
 
 function setNewStage(stage) {
@@ -40,5 +26,33 @@ function getCurrentStage() {
     return parseInt(s);
 }
 function getNextStage() {
-    return Stages.find(s => s.stage === STAGE);
+    let _stage = Stages.find(s => s.stage === STAGE);
+    if (!_stage) {
+        setNewStage(1); // game finished
+        return Stages.find(s => s.stage === 1);
+    }
+    return _stage;
 }
+
+// game event handlers
+
+GAME._game.on(":win", function() {
+    STAGE++;
+    setNewStage(STAGE);
+    let newgame = getNextStage();
+    GAME.reset();
+    setTimeout(function(){
+        loadNewGame(newgame)
+    }, 1000)
+    //loadNewGame(newgame);
+})
+GAME._game.on(":gameover", function() {
+    GAME.stop();
+    //GAME.reset();
+})
+
+document.addEventListener('keydown', function (e) {
+    if (e.key === " " || e.code === "Space") {
+        GAME.restart();
+    }
+});

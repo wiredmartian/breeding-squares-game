@@ -11,7 +11,7 @@ resizeCanvas();
 let PARENT_HIT = false;
 let ANIMATION_ID = undefined;
 let SQUARES = [];
-let MAX_SQUARES = 5;
+let MAX_SQUARES = 0;
 let DX = undefined;
 let DY = undefined;
 let W;
@@ -35,13 +35,18 @@ window.addEventListener('resize', function () {
 });
 
 export class Square {
-    constructor(x, y, dx, dy, w = 40, h = 40) {
+    constructor(x, y, dx, dy, w, h, max_s) {
         this.x = x;
         this.y = y;
         this.dx = dx;
         this.dy = dy;
         this.w = w;
         this.h = h;
+        this.max_s = max_s;
+
+        if (MAX_SQUARES === 0) {
+            MAX_SQUARES = max_s;
+        }
 
         this.color = colors[Math.floor(Math.random() * colors.length)];
 
@@ -68,7 +73,7 @@ export class Square {
             this.y += this.dy;
             if (this.parentHit()) {
                 this.stop();
-                this.reset();
+                //this.reset();
             }
             mouseCoords.x = undefined;
             mouseCoords.y = undefined;
@@ -103,7 +108,7 @@ export class Square {
                 let y = Math.random() * (canvasDimensions - 50);
                 let dx = (Math.random() * this.dx);
                 let dy = (Math.random() * this.dy);
-                SQUARES.push(new Square(x, y, dx, dy, this.w, this.h));
+                SQUARES.push(new Square(x, y, dx, dy, this.w, this.h, this.max_s));
             }
         };
         this.start = function() {
@@ -163,7 +168,7 @@ function animate() {
         SQUARES[i].update();
         if (SQUARES.length <= MAX_SQUARES) {
             if (Math.floor(SQUARES[0].x) === Math.floor(SQUARES[1].x)) {
-                SQUARES.push(new Square(x, y, dx, dy, W, H));
+                SQUARES.push(new Square(x, y, dx, dy, W, H, MAX_SQUARES));
                 //updateScore();
                 break;
             }
