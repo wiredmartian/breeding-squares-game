@@ -1,8 +1,10 @@
-
-#canvas {
-  margin: 2% auto;
-  display: block;
-  border: 3px solid #FFF;
+* {
+  margin: 0;
+  padding: 0;
+}
+html {
+  width: 100%;
+  height: 100%;
 }
 body {
   background-color: #272727;
@@ -11,4 +13,9 @@ body {
   font-size: 3.5em;
   text-transform: uppercase;
   font-family: Calibri;
+
+  #canvas {
+    margin: 1.5% auto;
+    display: block;
+  }
 }

@@ -2,9 +2,9 @@ import { EventEmitter } from "events";
 
 let _gameEvent = new EventEmitter();
 
-
 const canvas = document.querySelector('canvas');
-let canvasDimensions = (window.innerHeight - 80);
+let canvasHeight = window.innerHeight - 30;
+let canvasWidth = window.innerWidth - 30;
 const ctx = canvas.getContext('2d');
 resizeCanvas();
 
@@ -17,8 +17,6 @@ let DX = undefined;
 let DY = undefined;
 let W;
 let H;
-
-// let colors = ['#57F408', '#08F4A5', '#08CDF4', '#9F33EE', '#0857F4', '#EE3382'];
 
 let mouseCoords = {
     x: undefined,
@@ -68,10 +66,10 @@ export class Square {
             ctx.fillRect(this.x, this.y, this.h, this.w);
         };
         this.update = function () {
-            if (this.x + this.w > canvasDimensions || this.x < 0) {
+            if (this.x + this.w > canvasWidth || this.x < 0) {
                 this.dx = -this.dx;
             }
-            if (this.y + this.h > canvasDimensions || this.y < 0) {
+            if (this.y + this.h > canvasHeight || this.y < 0) {
                 this.dy = -this.dy;
             }
             this.x += this.dx;
@@ -109,8 +107,8 @@ export class Square {
         };
         this.createParents = function() {
             for(let i = 0; i < 2; i++) {
-                let x = Math.random() * (canvasDimensions - 50);
-                let y = Math.random() * (canvasDimensions - 50);
+                let x = Math.random() * (canvasWidth - 50);
+                let y = Math.random() * (canvasHeight - 50);
                 let dx = (Math.random() * this.dx);
                 let dy = (Math.random() * this.dy);
                 SQUARES.push(new Square(x, y, dx, dy, this.w, this.h, this.max_s, this.colors));
@@ -153,13 +151,13 @@ function calculateDistance(x2, x1, y2, y1) {
 }
 
 function resizeCanvas() {
-    canvas.width = (window.innerHeight - 80);
-    canvas.height = (window.innerHeight - 80);
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
 }
 
 function animate() {
-    let x = Math.random() * (canvasDimensions - 50);
-    let y = Math.random() * (canvasDimensions - 50);
+    let x = Math.random() * (canvasWidth - 50);
+    let y = Math.random() * (canvasHeight - 50);
     let dx = (Math.random() * DX);
     let dy = (Math.random() * DY);
     ANIMATION_ID = requestAnimationFrame(animate);
