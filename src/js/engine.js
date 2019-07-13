@@ -2,9 +2,7 @@ import { EventEmitter } from "events";
 
 let _gameEvent = new EventEmitter();
 
-
 const canvas = document.querySelector('canvas');
-let canvasDimensions = (window.innerHeight - 80);
 let canvasHeight = window.innerHeight - 80;
 let canvasWidth = window.innerWidth - 80;
 const ctx = canvas.getContext('2d');
@@ -109,8 +107,8 @@ export class Square {
         };
         this.createParents = function() {
             for(let i = 0; i < 3; i++) {
-                let x = Math.random() * (canvasDimensions - 50);
-                let y = Math.random() * (canvasDimensions - 50);
+                let x = Math.random() * (canvasWidth - 50);
+                let y = Math.random() * (canvasHeight - 50);
                 let dx = (Math.random() * this.dx);
                 let dy = (Math.random() * this.dy);
                 SQUARES.push(new Square(x, y, dx, dy, this.w, this.h, this.max_s, this.colors));
@@ -158,8 +156,8 @@ function resizeCanvas() {
 }
 
 function animate() {
-    let x = Math.random() * (canvasDimensions - 50);
-    let y = Math.random() * (canvasDimensions - 50);
+    let x = Math.random() * (canvasWidth - 50);
+    let y = Math.random() * (canvasHeight - 50);
     let dx = (Math.random() * DX);
     let dy = (Math.random() * DY);
     ANIMATION_ID = requestAnimationFrame(animate);
