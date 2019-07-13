@@ -11,13 +11,14 @@ resizeCanvas();
 let PARENT_HIT = false;
 let ANIMATION_ID = undefined;
 let SQUARES = [];
+let COLORS = [];
 let MAX_SQUARES = 0;
 let DX = undefined;
 let DY = undefined;
 let W;
 let H;
 
-let colors = ['#57F408', '#08F4A5', '#08CDF4', '#9F33EE', '#0857F4', '#EE3382'];
+// let colors = ['#57F408', '#08F4A5', '#08CDF4', '#9F33EE', '#0857F4', '#EE3382'];
 
 let mouseCoords = {
     x: undefined,
@@ -35,7 +36,7 @@ window.addEventListener('resize', function () {
 });
 
 export class Square {
-    constructor(x, y, dx, dy, w, h, max_s) {
+    constructor(x, y, dx, dy, w, h, max_s, colors) {
         this.x = x;
         this.y = y;
         this.dx = dx;
@@ -43,12 +44,16 @@ export class Square {
         this.w = w;
         this.h = h;
         this.max_s = max_s;
+        this.colors = colors;
 
         if (MAX_SQUARES === 0) {
             MAX_SQUARES = max_s;
         }
+        if (COLORS.length === 0) {
+            COLORS = this.colors;
+        }
 
-        this.color = colors[Math.floor(Math.random() * colors.length)];
+        this.color = this.colors[Math.floor(Math.random() * this.colors.length)];
 
         // share values with animate function
         if (!(DX && DY)) {
@@ -108,7 +113,7 @@ export class Square {
                 let y = Math.random() * (canvasDimensions - 50);
                 let dx = (Math.random() * this.dx);
                 let dy = (Math.random() * this.dy);
-                SQUARES.push(new Square(x, y, dx, dy, this.w, this.h, this.max_s));
+                SQUARES.push(new Square(x, y, dx, dy, this.w, this.h, this.max_s, this.colors));
             }
         };
         this.start = function() {
@@ -168,7 +173,7 @@ function animate() {
         SQUARES[i].update();
         if (SQUARES.length <= MAX_SQUARES) {
             if (Math.floor(SQUARES[0].x) === Math.floor(SQUARES[1].x)) {
-                SQUARES.push(new Square(x, y, dx, dy, W, H, MAX_SQUARES));
+                SQUARES.push(new Square(x, y, dx, dy, W, H, MAX_SQUARES, COLORS));
                 //updateScore();
                 break;
             }

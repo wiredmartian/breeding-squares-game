@@ -10,7 +10,8 @@ if (STAGE_DATA) {
 }
 
 function loadNewGame(s) {
-    GAME = new Square(s.data.x, s.data.y, s.data.dx, s.data.dy, s.data.w, s.data.h, s.data.maxsquares);
+    console.log(s.data)
+    GAME = new Square(s.data.x, s.data.y, s.data.dx, s.data.dy, s.data.w, s.data.h, s.data.maxsquares, s.data.colors);
     GAME.start();
 }
 
