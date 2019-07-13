@@ -8,8 +8,8 @@ export const Stages = [
     data: {
             x: 10,
             y: 10,
-            dx: Math.random() * 8,
-            dy: Math.random() * 8,
+            dx: 8,
+            dy: 8,
             w: 80,
             h: 80,
             maxsquares: 50,
@@ -21,21 +21,8 @@ export const Stages = [
     data: {
             x: 10,
             y: 10,
-            dx: Math.random() * 10,
-            dy: Math.random() * 10,
-            w: 80,
-            h: 80,
-            maxsquares: 50,
-            colors: getColors()
-        }
-    },
-    {
-    stage: 2,
-    data: {
-            x: 10,
-            y: 10,
-            dx: Math.random() * 12,
-            dy: Math.random() * 12,
+            dx: 10,
+            dy: 10,
             w: 80,
             h: 80,
             maxsquares: 50,
@@ -47,8 +34,8 @@ export const Stages = [
     data: {
             x: 10,
             y: 10,
-            dx: Math.random() * 14,
-            dy: Math.random() * 14,
+            dx: 12,
+            dy: 12,
             w: 80,
             h: 80,
             maxsquares: 50,
@@ -60,10 +47,10 @@ export const Stages = [
     data: {
             x: 10,
             y: 10,
-            dx: Math.random() * 16,
-            dy: Math.random() * 16,
-            w: 80,
-            h: 80,
+            dx: 14,
+            dy: 14,
+            w: 85,
+            h: 85,
             maxsquares: 50,
             colors: getColors()
         }
@@ -73,27 +60,26 @@ export const Stages = [
     data: {
             x: 10,
             y: 10,
-            dx: Math.random() * 18,
-            dy: Math.random() * 18,
-            w: 80,
-            h: 80,
+            dx: 15,
+            dy: 15,
+            w: 90,
+            h: 90,
             maxsquares: 50,
             colors: getColors()
         }
     },
-
-    // velocity, colors, dimensions
+    // velocity, dimensions
     {
     stage: 6,
     data: {
             x: 10,
             y: 10,
-            dx: Math.random() * 12,
-            dy: Math.random() * 12,
-            w: 65,
-            h: 65,
+            dx: 15,
+            dy: 15,
+            w: 75,
+            h: 75,
             maxsquares: 50,
-            colors: getColors().splice(0, getColors().length/2)
+            colors: getColors()
         }
     },
     {
@@ -101,12 +87,12 @@ export const Stages = [
     data: {
             x: 10,
             y: 10,
-            dx: Math.random() * 14,
-            dy: Math.random() * 14,
-            w: 60,
-            h: 60,
+            dx: 15,
+            dy: 15,
+            w: 70,
+            h: 70,
             maxsquares: 50,
-            colors: getColors().splice(0, getColors().length/2)
+            colors: getColors()
         }
     },
     {
@@ -114,12 +100,12 @@ export const Stages = [
     data: {
             x: 10,
             y: 10,
-            dx: Math.random() * 15,
-            dy: Math.random() * 15,
-            w: 60,
-            h: 60,
+            dx: 16,
+            dy: 16,
+            w: 65,
+            h: 65,
             maxsquares: 50,
-            colors: getColors().splice(0, getColors().length/2)
+            colors: getColors()
         }
     },
     {
@@ -127,12 +113,12 @@ export const Stages = [
     data: {
             x: 10,
             y: 10,
-            dx: Math.random() * 14,
-            dy: Math.random() * 14,
-            w: 65,
-            h: 65,
+            dx: 16,
+            dy: 16,
+            w: 60,
+            h: 60,
             maxsquares: 50,
-            colors: getColors().splice(0, 6)
+            colors: getColors()
         }
     },
     {
@@ -140,13 +126,92 @@ export const Stages = [
     data: {
             x: 10,
             y: 10,
-            dx: Math.random() * 12,
-            dy: Math.random() * 12,
-            w: 50,
-            h: 50,
+            dx: 18,
+            dy: 18,
+            w: 55,
+            h: 55,
             maxsquares: 50,
-            colors: getColors().splice(0, 6)
+            colors: getColors()
         }
     },
 
+    // veleocity, size, colors
+    {
+    stage: 11,
+    data: {
+            x: 10,
+            y: 10,
+            dx: 16,
+            dy: 16,
+            w: 50,
+            h: 50,
+            maxsquares: 50,
+            colors: getColors().splice(0, getColors().length / 2)
+        }
+    },
+    {
+    stage: 12,
+    data: {
+            x: 10,
+            y: 10,
+            dx: 16,
+            dy: 16,
+            w: 50,
+            h: 50,
+            maxsquares: 50,
+            colors: getColors().splice(0, (getColors().length / 2) - 1)
+        }
+    },
+    {
+    stage: 13,
+    data: {
+            x: 10,
+            y: 10,
+            dx: 16,
+            dy: 16,
+            w: 50,
+            h: 50,
+            maxsquares: 50,
+            colors: getColors().splice(0, (getColors().length / 2) - 2)
+        }
+    },
+    {
+    stage: 13,
+    data: {
+            x: 10,
+            y: 10,
+            dx: 16,
+            dy: 16,
+            w: 50,
+            h: 50,
+            maxsquares: 50,
+            colors: getColors().splice(0, (getColors().length / 2) - 3)
+        }
+    },
+    {
+    stage: 14,
+    data: {
+            x: 10,
+            y: 10,
+            dx: 16,
+            dy: 16,
+            w: 45,
+            h: 45,
+            maxsquares: 50,
+            colors: getColors().splice(0, (getColors().length / 2) - 3)
+        }
+    },
+    {
+    stage: 15,
+    data: {
+            x: 10,
+            y: 10,
+            dx: 16,
+            dy: 16,
+            w: 50,
+            h: 50,
+            maxsquares: 50,
+            colors: getColors().splice(0, (getColors().length / 2) - 4)
+        }
+    },
 ]
