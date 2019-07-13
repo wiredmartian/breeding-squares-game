@@ -3,8 +3,8 @@ import { EventEmitter } from "events";
 let _gameEvent = new EventEmitter();
 
 const canvas = document.querySelector('canvas');
-let canvasHeight = window.innerHeight - 80;
-let canvasWidth = window.innerWidth - 80;
+let canvasHeight = window.innerHeight - 30;
+let canvasWidth = window.innerWidth - 30;
 const ctx = canvas.getContext('2d');
 resizeCanvas();
 
@@ -106,7 +106,7 @@ export class Square {
             ctx.clearRect(0, 0, innerWidth, innerHeight);
         };
         this.createParents = function() {
-            for(let i = 0; i < 3; i++) {
+            for(let i = 0; i < 2; i++) {
                 let x = Math.random() * (canvasWidth - 50);
                 let y = Math.random() * (canvasHeight - 50);
                 let dx = (Math.random() * this.dx);

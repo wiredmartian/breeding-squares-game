@@ -10,8 +10,8 @@ export const Stages = [
             y: 10,
             dx: -8,
             dy: -8,
-            w: 80,
-            h: 80,
+            w: 70,
+            h: 70,
             maxsquares: 50,
             colors: getColors()
         }
@@ -23,8 +23,8 @@ export const Stages = [
             y: 10,
             dx: 10,
             dy: 10,
-            w: 80,
-            h: 80,
+            w: 70,
+            h: 70,
             maxsquares: 50,
             colors: getColors()
         }
@@ -36,8 +36,8 @@ export const Stages = [
             y: 10,
             dx: -12,
             dy: -12,
-            w: 80,
-            h: 80,
+            w: 70,
+            h: 70,
             maxsquares: 50,
             colors: getColors()
         }
@@ -49,8 +49,8 @@ export const Stages = [
             y: 10,
             dx: 14,
             dy: 14,
-            w: 85,
-            h: 85,
+            w: 75,
+            h: 75,
             maxsquares: 50,
             colors: getColors()
         }
@@ -62,8 +62,8 @@ export const Stages = [
             y: 10,
             dx: -15,
             dy: -15,
-            w: 90,
-            h: 90,
+            w: 75,
+            h: 75,
             maxsquares: 50,
             colors: getColors()
         }
