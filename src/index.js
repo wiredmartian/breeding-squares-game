@@ -1,30 +1,44 @@
 import "./styles/main.scss";
-import { Square } from "./engine";
+import { Square } from "./js/engine";
+import { Stages } from './js/stages';
 
-let STAGE = 1;
+let GAME;
+let STAGE = getCurrentStage(); // number
+let STAGE_DATA = getNextStage(); // stage variables
+if (STAGE_DATA) {
+    loadNewGame(STAGE_DATA);
+}
 
-// new Square(x.position, y.position, x.velocity, y.velocity, sq.width, sq.height, maxsquares)
-var game = new Square(10, 10, 10, 10, 40, 40);
 
-game.start();
-newStage(STAGE);
-
-game._game.on(":gameover", function() {
-    game.stop();
-    game.reset();
+GAME._game.on(":gameover", function() {
+    //GAME.stop();
+    //GAME.reset();
 })
-
 
 
 document.addEventListener('keydown', function (e) {
     if (e.key === " " || e.code === "Space") {
-        game.restart();
+        GAME.restart();
     }
 });
 
-function newStage(stage) {
+function loadNewGame(s) {
+    GAME = new Square(s.data.x, s.data.y, s.data.dx, s.data.dy, s.data.w, s.data.h);
+    GAME.start();
+    setNewStage(s.stage);
+}
+
+function setNewStage(stage) {
     localStorage.setItem(':STAGE', stage);
 }
-function loadNewGame(game) {
-    game.start();
+function getCurrentStage() {
+    let s = localStorage.getItem(':STAGE');
+    if (!s) {
+        localStorage.setItem(':STAGE', 1);
+        return 1;
+    }
+    return parseInt(s);
+}
+function getNextStage() {
+    return Stages.find(s => s.stage === STAGE);
 }
