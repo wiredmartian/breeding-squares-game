@@ -5,6 +5,8 @@ let _gameEvent = new EventEmitter();
 
 const canvas = document.querySelector('canvas');
 let canvasDimensions = (window.innerHeight - 80);
+let canvasHeight = window.innerHeight - 80;
+let canvasWidth = window.innerWidth - 80;
 const ctx = canvas.getContext('2d');
 resizeCanvas();
 
@@ -17,8 +19,6 @@ let DX = undefined;
 let DY = undefined;
 let W;
 let H;
-
-// let colors = ['#57F408', '#08F4A5', '#08CDF4', '#9F33EE', '#0857F4', '#EE3382'];
 
 let mouseCoords = {
     x: undefined,
@@ -68,10 +68,10 @@ export class Square {
             ctx.fillRect(this.x, this.y, this.h, this.w);
         };
         this.update = function () {
-            if (this.x + this.w > canvasDimensions || this.x < 0) {
+            if (this.x + this.w > canvasWidth || this.x < 0) {
                 this.dx = -this.dx;
             }
-            if (this.y + this.h > canvasDimensions || this.y < 0) {
+            if (this.y + this.h > canvasHeight || this.y < 0) {
                 this.dy = -this.dy;
             }
             this.x += this.dx;
@@ -108,7 +108,7 @@ export class Square {
             ctx.clearRect(0, 0, innerWidth, innerHeight);
         };
         this.createParents = function() {
-            for(let i = 0; i < 2; i++) {
+            for(let i = 0; i < 3; i++) {
                 let x = Math.random() * (canvasDimensions - 50);
                 let y = Math.random() * (canvasDimensions - 50);
                 let dx = (Math.random() * this.dx);
@@ -153,8 +153,8 @@ function calculateDistance(x2, x1, y2, y1) {
 }
 
 function resizeCanvas() {
-    canvas.width = (window.innerHeight - 80);
-    canvas.height = (window.innerHeight - 80);
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
 }
 
 function animate() {
